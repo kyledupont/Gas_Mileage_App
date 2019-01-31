@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 
+var selectOptions;
+var count = 0;
 
 class App extends Component {
 
@@ -22,7 +24,9 @@ class App extends Component {
      axios.get('https://fueleconomy.gov/ws/rest/vehicle/menu/year')
        .then(result => this.setState({ year: Object.values(result.data.menuItem) }))
   }
-  
+
+ 
+
   handleChange = (event) => {
     const target = event.target;
     const value = target.value;
@@ -44,16 +48,24 @@ class App extends Component {
        .then(result => 
          
          this.setState({ 
-           options: Object.values(result.data)
-          })
-         (console.log(result.data.menuItem.text))
+           options: result.data.menuItem
+          }, function() {
+        console.log(this.state.options)
           
-        )
-      var selectOptions;  
-      //if (typeof this.state.options.menuItem.text !== 'undefined') {console.log('single')} else {console.log('double or empty')}}
-      if ('text' in this.state.options.menuItem) {console.log('single')} else {console.log('double or empty')}}
-  
-      )
+        
+      //var selectOptions;  
+      //if (typeof this.state.options === 'object') {console.log('single')} else {console.log('double or empty')}
+      //if ('text' in this.state.options.menuItem) {console.log('single')} else {console.log('double or empty')}
+      if (Array.isArray(result.data.menuItem)) {
+        selectOptions = this.state.options.map(item =>(
+          <option key={item.text} value={item.value}>{item.text}</option>
+        ))
+      } else {
+        // optionText = this.state.options.text;
+        // optionValue = this.state.options.value;
+        selectOptions = <option key={count+=1} value={this.state.options.value}>{this.state.options.text}</option>
+      }
+        }))})
   }
  
   // {if (Array.isArray(this.state.options)) {console.log('is array')} else {console.log('not array')}}
@@ -64,8 +76,7 @@ class App extends Component {
 
   render() {
     //console.log(this.state.year);
-    var count = 0;
-
+    
     return (
       <form>
         <label>
@@ -99,14 +110,8 @@ class App extends Component {
           <br/>Select Options<br/>
           <select name="optionsvalue" defaultValue="--" onChange={this.handleChange}>
             <option key="--"> -- </option>
-            
-            {/* Add if statement for array vs object */}
-            {/* <option>{selectOptions}</option> */}
-            <option key={count+=1} value={this.state.options.text}>{this.state.options.text}</option>
-            {/* {this.state.options.map(item =>(
-              <option key={count+=1} value={item.value}>{item.text}</option>
-            ))} */}
-
+            {selectOptions}
+            {/* <option key={count+=1} value={optionValue}>{optionText}</option> */}
           </select>
         </label>    
       </form>

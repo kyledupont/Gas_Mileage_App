@@ -32,10 +32,13 @@ class App extends Component {
     const value = target.value;
     const name = target.name;
     console.log(value)
+
+    // Setting the value state of the current selection
     this.setState({
       [name]: value,
     }, function() {
 
+      // Make API calls based on current selection value
       axios.get(`https://fueleconomy.gov/ws/rest/vehicle/menu/make?year=${this.state.yearvalue}`)
       .then(result => this.setState({ make: Object.values(result.data.menuItem) }))
 
@@ -43,39 +46,24 @@ class App extends Component {
        .then(result => this.setState({ model: Object.values(result.data.menuItem) }))
 
       axios.get(`https://fueleconomy.gov/ws/rest/vehicle/menu/options?year=${this.state.yearvalue}&make=${this.state.makevalue}&model=${this.state.modelvalue}`)
-       //.then(result => {if (result === "<menuItems/>") {console.log('ITS EMPTY')} })
-       //.then(result => console.log(result.data.menuItem))
-       .then(result => 
-         
-         this.setState({ 
-           options: result.data.menuItem
-          }, function() {
-        console.log(this.state.options)
-          
-        
-      //var selectOptions;  
-      //if (typeof this.state.options === 'object') {console.log('single')} else {console.log('double or empty')}
-      //if ('text' in this.state.options.menuItem) {console.log('single')} else {console.log('double or empty')}
-      if (Array.isArray(result.data.menuItem)) {
-        selectOptions = this.state.options.map(item =>(
-          <option key={item.text} value={item.value}>{item.text}</option>
-        ))
-      } else {
-        // optionText = this.state.options.text;
-        // optionValue = this.state.options.value;
-        selectOptions = <option key={count+=1} value={this.state.options.value}>{this.state.options.text}</option>
-      }
+    
+      //Set options state, produce options based on results - could be blank, single object, or array of objects
+       .then(result => this.setState({ options: result.data.menuItem}, function() {
+          console.log(this.state.options, result.data.menuItem)
+      
+          if (Array.isArray(this.state.options)) {
+            selectOptions = this.state.options.map(item =>(
+              <option key={item.text} value={item.value}>{item.text}</option>
+            ))
+          } else {
+            selectOptions = <option key={count+=1} value={this.state.options.value}>{this.state.options.text}</option>
+          }
+
         }))})
   }
  
-  // {if (Array.isArray(this.state.options)) {console.log('is array')} else {console.log('not array')}}
-    //   selectOptions = <LogoutButton />;
-    // } else {
-    //   selectOptions = <LoginButton />;
-    // }
-
   render() {
-    //console.log(this.state.year);
+    console.log(this.state.options);
     
     return (
       <form>
@@ -111,7 +99,6 @@ class App extends Component {
           <select name="optionsvalue" defaultValue="--" onChange={this.handleChange}>
             <option key="--"> -- </option>
             {selectOptions}
-            {/* <option key={count+=1} value={optionValue}>{optionText}</option> */}
           </select>
         </label>    
       </form>

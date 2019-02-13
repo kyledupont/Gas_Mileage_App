@@ -13,10 +13,10 @@ class Results2 extends Component {
               
                 <div className={this.props.clname}>
                     <div className="citympg">
-                        City MPG: {this.props.city}
+                        City MPG:<br/>{this.props.city}
                     </div>
                     <div className="hwympg">
-                        Highway MPG: {this.props.highway}               
+                        Highway MPG:<br/>{this.props.highway}               
                     </div>
                     <div className="combmpg">
                         Combined MPG: {this.props.combined}               

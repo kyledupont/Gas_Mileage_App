@@ -233,7 +233,7 @@ class App extends Component {
           <form className="form">
             <label>
               <br/>Select Year<br/>
-              <select id="year" name="yearvalue" defaultValue="--" onChange={this.handleChange}>
+              <select id="year" name="yearvalue" defaultValue="--" onChange={this.handleChange} >
                 <option disabled key="--" value="--"> -- </option>
                 {this.state.year.map(item =>(
                   <option key={item.text} value={item.value}>{item.text}</option>

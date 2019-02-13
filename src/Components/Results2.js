@@ -6,7 +6,7 @@ import '../App.css';
 // library.add(faCarSide)
 
     
-class Results extends Component {
+class Results2 extends Component {
     render() {
         return (
             <React.Fragment>
@@ -28,6 +28,7 @@ class Results extends Component {
                     <div className ="annual">
                         Annual fuel cost (15k miles): ${this.props.cost}               
                     </div>
+                    {/* <div className="close2" onClick={this.props.onClick}>X</div> */}
                 </div>
                 
             </React.Fragment>
@@ -35,4 +36,4 @@ class Results extends Component {
     }
 }
 
-export default Results;
+export default Results2;

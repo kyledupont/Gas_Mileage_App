@@ -60,6 +60,7 @@ label{
   justify-items: center;
   height: min-content;
   border: 1px solid white;
+  padding: 5px;
 }
 
 .submit, .submit2 {
@@ -89,6 +90,7 @@ label{
   justify-content: center;
   justify-items: center;
   border: 1px solid white;
+  padding: 5px;
 }
 
 .form2 {
